@@ -35,7 +35,7 @@ extern char* hedera_secret_key_to_str(HederaSecretKey*);
 ///
 /// Returns [HEDERA_ERROR_SUCCESS] (0) on success or any other value on error. Use [hedera_error_message] to retrieve
 /// a message for the error.
-extern HederaError hedera_secret_key_sign(HederaSecretKey*, const u_int8_t* message, size_t message_len, HederaSignature* out);
+extern HederaError hedera_secret_key_sign(HederaSecretKey*, const uint8_t* message, size_t message_len, HederaSignature* out);
 
 /// An ed25519 public key.
 typedef struct { uint8_t bytes[32]; } HederaPublicKey;
@@ -59,7 +59,7 @@ extern HederaError hedera_public_key_from_str(const char* s, HederaPublicKey* ou
 ///
 ///
 /// Returns 1 if verification passed, otherwise returns 0
-extern int8_t hedera_public_key_verify(HederaPublicKey* p, HederaSignature* s, const u_int8_t* message, size_t message_len);
+extern int8_t hedera_public_key_verify(HederaPublicKey* p, HederaSignature* s, const uint8_t* message, size_t message_len);
 
 #ifdef __cplusplus
 }
