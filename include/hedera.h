@@ -3,3 +3,4 @@
 #include "hedera-error.h"
 #include "hedera-crypto.h"
 #include "hedera-id.h"
+#include "hedera-client.h"

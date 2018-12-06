@@ -34,7 +34,7 @@ macro_rules! def_from_str {
             s: *const libc::c_char,
             out: *mut $ty,
         ) -> crate::errors::HederaResult {
-            let s = try_ffi!(unsafe { std::ffi::CStr::from_ptr(s as _) }.to_str());
+            let s = try_ffi!(unsafe { std::ffi::CStr::from_ptr(s) }.to_str());
 
             unsafe {
                 *out = try_ffi!(s.parse());
