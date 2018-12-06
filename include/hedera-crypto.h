@@ -1,14 +1,13 @@
-#ifndef HEDERA_KEY_9999A0E8_2BD1_4C33_8071_D93A13B8A9E
-#define HEDERA_KEY_9999A0E8_2BD1_4C33_8071_D93A13B8A9E
+#pragma once
 
 #include <stdint.h>
+#include <stddef.h>
+
 #include "hedera-error.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-// TODO: Define a Keypair structure. Would be more efficient for signing.
 
 /// A signature signed with a HederaSecretKey.
 typedef struct { uint8_t bytes[64]; } HederaSignature;
@@ -25,7 +24,7 @@ extern HederaError hedera_signature_from_str(const char* s, HederaSignature* out
 /// Returns ownership of the string. Must be freed with [free].
 extern char* hedera_signature_to_str(HederaSignature*);
 
-/// An EdDSA secret key.
+/// An ed5519 secret key.
 typedef struct { uint8_t bytes[32]; } HederaSecretKey;
 
 /// Generate a new [HederaSecretKey] from a cryptographically secure pseudo-random number generator (CSPRNG).
@@ -76,5 +75,3 @@ extern HederaError hedera_public_key_verify(HederaPublicKey* p, HederaSignature*
 #ifdef __cplusplus
 }
 #endif
-
-#endif // HEDERA_KEY_9999A0E8_2BD1_4C33_8071_D93A13B8A9E
