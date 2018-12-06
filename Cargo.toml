@@ -3,9 +3,6 @@ name = "hedera"
 publish = false
 version = "0.0.0"
 edition = "2018"
-authors = [
-    "Ryan Leckey <ryan@launchbadge.com>"
-]
 
 [lib]
 crate-type = ["staticlib"]

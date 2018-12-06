@@ -44,3 +44,31 @@ macro_rules! def_from_str {
         }
     };
 }
+
+#[macro_export]
+macro_rules! def_query_new {
+    ($constructor:ident: $name:ident($ty:ty) -> $rty:ident) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            client: *mut hedera::Client,
+            _1: $ty,
+        ) -> *mut hedera::query::Query<$rty> {
+            Box::into_raw(Box::new($constructor::new(&*client, _1)))
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! def_query_get {
+    ($name:ident -> $ty:ident) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            query: *mut hedera::query::Query<$ty>,
+            out: *mut $ty,
+        ) -> crate::errors::HederaResult {
+            *out = try_ffi!(Box::from_raw(query).get());
+
+            crate::errors::HederaResult::Success
+        }
+    };
+}
