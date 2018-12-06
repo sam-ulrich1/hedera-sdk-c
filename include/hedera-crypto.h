@@ -9,7 +9,13 @@
 extern "C" {
 #endif
 
-/// A signature signed with a HederaSecretKey.
+/// An ed25519 public key.
+typedef struct { uint8_t bytes[32]; } HederaPublicKey;
+
+/// An EdDSA secret key.
+typedef struct { uint8_t bytes[32]; } HederaSecretKey;
+
+/// An EdDSA signature.
 typedef struct { uint8_t bytes[64]; } HederaSignature;
 
 /// Parse a [HederaSignature] from a hex-encoded string.
@@ -19,13 +25,7 @@ typedef struct { uint8_t bytes[64]; } HederaSignature;
 extern HederaError hedera_signature_from_str(const char* s, HederaSignature* out);
 
 /// Format a [HederaSignature as a hex-encoded string of the signature.
-///
-///
-/// Returns ownership of the string. Must be freed with [free].
 extern char* hedera_signature_to_str(HederaSignature*);
-
-/// An ed5519 secret key.
-typedef struct { uint8_t bytes[32]; } HederaSecretKey;
 
 /// Generate a new [HederaSecretKey] from a cryptographically secure pseudo-random number generator (CSPRNG).
 extern HederaSecretKey hedera_secret_key_generate();
@@ -42,15 +42,6 @@ extern HederaError hedera_secret_key_from_str(const char* s, HederaSecretKey* ou
 /// Returns ownership of the string. Must be freed with [free].
 extern char* hedera_secret_key_to_str(HederaSecretKey*);
 
-/// sign a message with a [HederaSecretKey]
-///
-/// Returns [HEDERA_ERROR_SUCCESS] (0) on success or any other value on error. Use [hedera_error_message] to retrieve
-/// a message for the error.
-extern HederaError hedera_secret_key_sign(HederaSecretKey*, const uint8_t* message, size_t message_len, HederaSignature* out);
-
-/// An ed25519 public key.
-typedef struct { uint8_t bytes[32]; } HederaPublicKey;
-
 /// Derive a [HederaPublicKey] from a [HederaSecretKey].
 extern HederaPublicKey hedera_public_key_from_secret_key(HederaSecretKey*);
 
@@ -66,11 +57,19 @@ extern char* hedera_public_key_to_str(HederaPublicKey*);
 /// a message for the error.
 extern HederaError hedera_public_key_from_str(const char* s, HederaPublicKey* out);
 
+/// Sign a message with a [HederaSecretKey].
+///
+/// Returns [HEDERA_ERROR_SUCCESS] (0) on success or any other value on error. Use [hedera_error_message] to retrieve
+/// a message for the error.
+extern HederaError hedera_crypto_sign(
+    HederaSecretKey*, const uint8_t* message, size_t message_len, HederaSignature* out);
+
 /// Verify a message using a [HederaSignature] and the corresponding [HederaPublicKey].
 ///
 /// Returns [HEDERA_ERROR_SUCCESS] (0) on success or any other value on error. Use [hedera_error_message] to retrieve
 /// a message for the error.
-extern HederaError hedera_public_key_verify(HederaPublicKey* p, HederaSignature* s, const uint8_t* message, size_t message_len, int8_t* out);
+extern HederaError hedera_crypto_verify(
+    HederaPublicKey* p, HederaSignature* s, const uint8_t* message, size_t message_len, int8_t* out);
 
 #ifdef __cplusplus
 }

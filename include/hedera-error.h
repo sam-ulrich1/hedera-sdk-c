@@ -6,14 +6,18 @@
 extern "C" {
 #endif
 
-typedef int64_t HederaError;
+typedef int8_t HederaError;
 
-/// 0 = No error or successful
+/// 0 = No error.
 #define HEDERA_ERROR_SUCCESS 0
 
-/// Return a message corresponding to the passing in error. Returns `NULL` if there is no corresponding error.
+/// 1 = There was an error. Use [hedera_last_error] to retrieve the error.
+#define HEDERA_ERROR_FAILURE 1
+
+/// Return the error message for the last error that occurred in this SDK.
 /// Error messages may only be obtained once. Further attempts will return `NULL`.
-extern char* hedera_error_message(HederaError);
+/// Returns `NULL` if no error has occurred.
+extern char* hedera_last_error();
 
 #ifdef __cplusplus
 }

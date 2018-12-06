@@ -7,14 +7,14 @@ int main() {
     HederaSecretKey secret = hedera_secret_key_generate();
     HederaPublicKey public = hedera_public_key_from_secret_key(&secret);
 
-    char *secret_str = hedera_secret_key_to_str(&secret);
-    char *public_str = hedera_public_key_to_str(&public);
+    char *secret_s = hedera_secret_key_to_str(&secret);
+    char *public_s = hedera_public_key_to_str(&public);
 
-    printf("secret = %s\n", secret_str);
-    printf("public = %s\n", public_str);
+    printf("secret = %s\n", secret_s);
+    printf("public = %s\n", public_s);
 
-    free(secret_str);
-    free(public_str);
+    free(secret_s);
+    free(public_s);
 
     return 0;
 }
