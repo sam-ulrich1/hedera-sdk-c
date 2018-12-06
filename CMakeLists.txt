@@ -4,14 +4,22 @@ project(hedera)
 
 include_directories(include)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY build/examples)
-
-add_executable(generate_keys examples/generate_keys.c)
-
-# fixme: platform dependent (this is osx specific)
+# [macOS] -framework security
 find_library(SECURITY_FRAMEWORK Security)
-target_link_libraries(generate_keys ${SECURITY_FRAMEWORK})
 
-# fixme: profile dependent (debug vs. release)
-target_link_directories(generate_keys PRIVATE target/release)
-target_link_libraries(generate_keys hedera)
+file(GLOB examples "examples/*.c")
+foreach(example ${examples})
+    get_filename_component(target ${example} NAME_WE)
+
+    add_executable(${target} ${example})
+
+    # > build/examples
+    set_target_properties(${target} PROPERTIES RUNTIME_OUTPUT_DIRECTORY build/examples)
+
+    # [macOS] -framework security
+    target_link_libraries(${target} ${SECURITY_FRAMEWORK})
+
+    # -l hedera
+    target_link_directories(${target} PRIVATE target/release)
+    target_link_libraries(${target} hedera)
+endforeach()
