@@ -72,3 +72,28 @@ macro_rules! def_query_get {
         }
     };
 }
+
+#[macro_export]
+macro_rules! def_tx_new {
+    ($constructor:ident: $name:ident) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            client: *mut hedera::Client,
+        ) -> *mut hedera::transaction::Transaction<$constructor> {
+            Box::into_raw(Box::new($constructor::new(&*client)))
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! def_tx_method {
+    ($constructor:ident: $name:ident($ty:ty): $member:ident) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            tx: *mut hedera::transaction::Transaction<$constructor>,
+            _1: $ty,
+        ) {
+            (&mut *tx).$member(_1);
+        }
+    };
+}

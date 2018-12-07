@@ -28,7 +28,10 @@ pub unsafe extern "C" fn hedera_transaction_set_memo(
 }
 
 #[no_mangle]
-pub unsafe extern "C" fn hedera_transaction_sign(tx: *mut Transaction<()>, secret: *const SecretKey) {
+pub unsafe extern "C" fn hedera_transaction_sign(
+    tx: *mut Transaction<()>,
+    secret: *const SecretKey,
+) {
     (&mut *tx).sign(&*secret);
 }
 
