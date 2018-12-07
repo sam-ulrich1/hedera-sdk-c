@@ -10,6 +10,7 @@ mod id;
 mod timestamp;
 mod transaction_id;
 
+mod query;
 mod query_crypto_get_account_balance;
 
 mod transaction;
