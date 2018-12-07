@@ -15,10 +15,10 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    HederaQuery* query = hedera_query__get_account_balance__new(client, target);
+    HederaQuery* query = hedera_query__crypto_get_account_balance__new(client, target);
 
     uint64_t balance;
-    if (hedera_query__get_account_balance__get(query, &balance) != HEDERA_ERROR_SUCCESS) {
+    if (hedera_query__crypto_get_account_balance__get(query, &balance) != HEDERA_ERROR_SUCCESS) {
         char* err = hedera_last_error();
         fprintf(stderr, "error: %s\n", err);
         free(err);

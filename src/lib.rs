@@ -1,4 +1,4 @@
-#![feature(try_from)]
+#![feature(try_from, type_ascription)]
 
 #[macro_use]
 mod macros;

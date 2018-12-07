@@ -53,7 +53,7 @@ macro_rules! def_query_new {
             client: *mut hedera::Client,
             _1: $ty,
         ) -> *mut hedera::query::Query<$rty> {
-            Box::into_raw(Box::new($constructor::new(&*client, _1)))
+            Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
         }
     };
 }

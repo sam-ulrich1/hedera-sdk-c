@@ -2,7 +2,7 @@ use chrono::{DateTime, NaiveDateTime, TimeZone, Utc};
 use std::convert::TryInto;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub struct CTimestamp(pub(crate) i64, pub(crate) i32);
 
 impl From<CTimestamp> for DateTime<Utc> {
@@ -20,5 +20,18 @@ impl From<DateTime<Utc>> for CTimestamp {
             dt.timestamp(),
             dt.timestamp_subsec_nanos().try_into().unwrap(),
         )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{CTimestamp, Utc, DateTime};
+
+    #[test]
+    fn test_into() {
+        let dt = Utc::now();
+        let ts: CTimestamp = dt.into();
+
+        assert_eq!(ts.into(): DateTime<Utc>, dt);
     }
 }

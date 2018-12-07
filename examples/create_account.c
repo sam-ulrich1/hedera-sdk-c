@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "hedera.h"
 
@@ -97,6 +98,24 @@ int main() {
     char* id_s = hedera_transaction_id_to_str(&id);
     printf("created account; transaction = %s\n", id_s);
     free(id_s);
+
+    // Wait 5 seconds ...
+    // We wait to make sure the server has enough time to process before we request the receipt
+    // For a real application you would loop this as you may receive UNKNOWN for receipt status
+    // which would tell you to wait awhile and try again
+    sleep(5);
+
+    // Grab the transaction receipt
+    HederaTransactionReceipt receipt;
+    HederaQuery *query = hedera_query__get_transaction_receipt__new(client, id);
+    if (hedera_query__get_transaction_receipt__get(query, &receipt) != HEDERA_ERROR_SUCCESS) {
+        print_hedera_error();
+        hedera_client_close(client);
+        return EXIT_FAILURE;
+    }
+
+    // Print our new account ID
+    printf("account = %lli\n", receipt.account_id->account);
 
     // Drop the connection to the Hedera node
     hedera_client_close(client);
