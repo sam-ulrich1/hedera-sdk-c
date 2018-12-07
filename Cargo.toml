@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = ["staticlib"]
 
 [dependencies]
-hedera = { git = "https://github.com/hashgraph/hedera-sdk-rust", rev = "7de8b3ebf45ad0bf027b6534f2610248c47006f4" }
+hedera = { git = "https://github.com/hashgraph/hedera-sdk-rust", rev = "af4913e8950ee13e61428937a47fbd4d4a365e8a" }
 mbox = { version = "0.5.0" }
 libc = { version = "0.2.44" }
 slotmap = { version = "0.3.0", features = [ "unstable" ] }
