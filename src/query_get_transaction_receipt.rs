@@ -1,0 +1,8 @@
+use hedera::{query::QueryGetTransactionReceipt, transaction::TransactionReceipt, TransactionId};
+
+def_query_new!(
+    QueryGetTransactionReceipt:
+        hedera_query__get_transaction_receipt__new(TransactionId) -> TransactionReceipt
+);
+
+def_query_get!(hedera_query__get_transaction_receipt__get -> TransactionReceipt);

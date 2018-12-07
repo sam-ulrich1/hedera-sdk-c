@@ -12,6 +12,7 @@ mod transaction_id;
 
 mod query;
 mod query_crypto_get_account_balance;
+mod query_get_transaction_receipt;
 
 mod transaction;
 mod transaction_crypto_create;
