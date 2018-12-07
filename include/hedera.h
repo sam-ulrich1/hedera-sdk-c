@@ -8,3 +8,6 @@
 #include "hedera-query.h"
 #include "hedera-query-get-account-balance.h"
 #include "hedera-query-get-transaction-receipt.h"
+
+#include "hedera-transaction.h"
+#include "hedera-transaction-crypto-create.h"

@@ -70,7 +70,33 @@ int main() {
         return EXIT_FAILURE;
     }
 
-    // todo: create the account
+    // Create our account
+    // The transaction works like a builder where we initialize and set various options before execution
+
+    HederaTransaction* tx = hedera_transaction__crypto_create__new(client);
+    hedera_transaction_set_operator(tx, operator);
+    hedera_transaction_set_node(tx, node);
+    hedera_transaction_set_memo(tx, "[hedera-sdk-c][example] create_account");
+    hedera_transaction__crypto_create__set_key(tx, public);
+    hedera_transaction__crypto_create__set_initial_balance(tx, 15);
+    hedera_transaction_sign(tx, &operator_secret);
+
+    // When a transaction is executed all we receive back is the ID of
+    // the transaction.
+
+    HederaTransactionId id;
+    if (hedera_transaction_execute(tx, &id) != HEDERA_ERROR_SUCCESS) {
+        print_hedera_error();
+        hedera_client_close(client);
+        return EXIT_FAILURE;
+    }
+
+    // If there was an immediate error we are informed of the pre-check failure.
+    // Otherwise, we can be reasonably sure it succeeded at this point.
+
+    char* id_s = hedera_transaction_id_to_str(&id);
+    printf("created account; transaction = %s\n", id_s);
+    free(id_s);
 
     // Drop the connection to the Hedera node
     hedera_client_close(client);
