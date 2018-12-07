@@ -83,6 +83,16 @@ macro_rules! def_tx_new {
             Box::into_raw(Box::new($constructor::new(&*client)))
         }
     };
+
+    ($constructor:ident: $name:ident($ty:ty)) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            client: *mut hedera::Client,
+            _1: $ty,
+        ) -> *mut hedera::transaction::Transaction<$constructor> {
+            Box::into_raw(Box::new($constructor::new(&*client, _1)))
+        }
+    };
 }
 
 #[macro_export]
@@ -94,6 +104,17 @@ macro_rules! def_tx_method {
             _1: $ty,
         ) {
             (&mut *tx).$member(_1);
+        }
+    };
+
+    ($constructor:ident: $name:ident($p1:ty, $p2:ty): $member:ident) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            tx: *mut hedera::transaction::Transaction<$constructor>,
+            _1: $p1,
+            _2: $p2,
+        ) {
+            (&mut *tx).$member(_1, _2);
         }
     };
 }
