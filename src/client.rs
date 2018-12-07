@@ -1,4 +1,4 @@
-use crate::errors::HederaResult;
+use super::errors::HederaResult;
 use hedera::Client;
 use libc::c_char;
 use std::ffi::CStr;
