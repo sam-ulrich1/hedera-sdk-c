@@ -69,7 +69,7 @@ extern HederaError hedera_crypto_sign(
 /// Returns [HEDERA_ERROR_SUCCESS] (0) on success or any other value on error. Use [hedera_error_message] to retrieve
 /// a message for the error.
 extern HederaError hedera_crypto_verify(
-    HederaPublicKey* p, HederaSignature* s, const uint8_t* message, size_t message_len, int8_t* out);
+    HederaPublicKey* p, HederaSignature* s, const uint8_t* message, size_t message_len, uint8_t* out);
 
 #ifdef __cplusplus
 }

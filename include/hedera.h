@@ -6,7 +6,7 @@
 #include "hedera-client.h"
 
 #include "hedera-query.h"
-#include "hedera-query-get-account-balance.h"
+#include "hedera-query-crypto-get-account-balance.h"
 #include "hedera-query-get-transaction-receipt.h"
 
 #include "hedera-transaction.h"
