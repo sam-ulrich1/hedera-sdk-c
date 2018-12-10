@@ -17,6 +17,8 @@ mod query_get_transaction_receipt;
 
 mod transaction;
 
+mod transaction_contract_create;
+
 mod transaction_crypto_create;
 mod transaction_crypto_delete;
 mod transaction_crypto_transfer;
