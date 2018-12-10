@@ -1,5 +1,5 @@
 use hedera::transaction::TransactionCryptoUpdate;
-use hedera::{crypto::PublicKey, AccountId};
+use hedera::{PublicKey, AccountId};
 
 def_tx_new!(TransactionCryptoUpdate: hedera_transaction__crypto_update__new(AccountId));
 

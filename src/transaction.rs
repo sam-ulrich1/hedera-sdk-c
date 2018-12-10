@@ -1,8 +1,7 @@
 use crate::errors::HederaResult;
 use crate::transaction_id::CTransactionId;
-use hedera::crypto::SecretKey;
 use hedera::transaction::Transaction;
-use hedera::AccountId;
+use hedera::{AccountId, SecretKey};
 use libc::c_char;
 use std::ffi::CStr;
 
@@ -40,7 +39,7 @@ pub unsafe extern "C" fn hedera_transaction_execute(
     tx: *mut Transaction<()>,
     out: *mut CTransactionId,
 ) -> HederaResult {
-    *out = try_ffi!(Box::from_raw(tx).execute()).id.into();
+    *out = try_ffi!(Box::from_raw(tx).execute()).into();
 
     HederaResult::Success
 }

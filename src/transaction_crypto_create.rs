@@ -1,4 +1,4 @@
-use hedera::crypto::PublicKey;
+use hedera::PublicKey;
 use hedera::transaction::TransactionCryptoCreate;
 
 def_tx_new!(TransactionCryptoCreate: hedera_transaction__crypto_create__new);
