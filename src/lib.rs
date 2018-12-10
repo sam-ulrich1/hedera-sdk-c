@@ -19,3 +19,5 @@ mod transaction_crypto_create;
 mod transaction_crypto_delete;
 mod transaction_crypto_transfer;
 mod transaction_crypto_update;
+
+mod transaction_file_create;
