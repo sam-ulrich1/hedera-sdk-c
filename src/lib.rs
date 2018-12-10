@@ -19,6 +19,7 @@ mod transaction;
 
 mod transaction_contract_create;
 mod transaction_contract_update;
+mod transaction_contract_call;
 
 mod transaction_crypto_create;
 mod transaction_crypto_delete;

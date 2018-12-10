@@ -21,6 +21,8 @@ extern void hedera_transaction__contract_create__set_proxy_account(HederaTransac
 
 extern void hedera_transaction__contract_create__set_proxy_fraction(HederaTransaction*, int32_t fraction);
 
+extern void hedera_transaction__contract_create__set_constructor_parameters(HederaTransaction*, const uint8_t* parameters);
+
 #ifdef __cplusplus
 }
 #endif
