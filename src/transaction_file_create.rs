@@ -1,5 +1,5 @@
 use hedera::transaction::TransactionFileCreate;
-use hedera::FileId;
+use hedera::PublicKey;
 
 def_tx_new!(TransactionFileCreate: hedera_transaction__file_create__new);
 
