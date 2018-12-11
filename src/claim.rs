@@ -10,10 +10,8 @@ pub struct CClaim(
     pub(crate) AccountId,
     pub(crate) *const u8, // pointer to hash
     pub(crate) usize, // hash len
-    pub(crate) usize, // hash capacity
     pub(crate) *const PublicKey, // pointer to key list
     pub(crate) usize, // key list len
-    pub(crate) usize, // key list capacity
 );
 
 impl TryFrom<CClaim> for Claim {
