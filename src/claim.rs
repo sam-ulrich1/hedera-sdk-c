@@ -1,19 +1,28 @@
 use hedera::Claim;
 use hedera::{AccountId, PublicKey};
 
-#[no_mangle]
-pub unsafe extern "C" fn hedera_claim_new(
-    account: AccountId,
-    hash: Vec<u8>
-) -> Claim {
-    Claim::new(account, hash)
+use std::convert::TryInto;
+
+#[repr(C)]
+#[derive(Debug, Clone, PartialEq)]
+pub struct CClaim(pub(crate) AccountId, pub(crate) Vec<u8>, pub(crate) Vec<PublicKey>);
+
+impl From<CClaim> for Claim {
+    fn from(cclaim: CClaim) -> Self {
+        Claim{
+            account: cclaim.0.try_into().unwrap(),
+            hash: (cclaim.1).try_into().unwrap(),
+            keys: (cclaim.2).try_into().unwrap(),
+        }
+    }
 }
 
-#[no_mangle]
-pub unsafe extern "C" fn hedera_claim_add_key(
-    claim: *mut Claim,
-    key: PublicKey
-) {
-    (&mut *claim).key(key);
-
+impl From<Claim> for CClaim {
+    fn from(claim: Claim) -> Self {
+        CClaim(
+            claim.account,
+            claim.hash,
+            claim.keys
+        )
+    }
 }

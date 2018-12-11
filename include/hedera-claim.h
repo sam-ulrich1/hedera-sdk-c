@@ -8,11 +8,11 @@
 extern "C" {
 #endif
 
-typedef struct HederaClaim HederaClaim;
-
-extern HederaClaim hedera_claim_new(HederaAccountId account, const uint8_t* hash,);
-
-extern void hedera_claim_add_key(HederaClaim*, HederaPublicKey key);
+typedef struct {
+    HederaAccountId account;
+    const uint8_t* hash;
+    HederaPublicKey keys[];
+} HederaClaim;
 
 #ifdef __cplusplus
 }
