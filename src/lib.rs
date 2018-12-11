@@ -10,6 +10,7 @@ mod id;
 mod timestamp;
 mod duration;
 mod transaction_id;
+mod claim;
 
 mod query;
 
@@ -30,7 +31,9 @@ mod transaction_crypto_create;
 mod transaction_crypto_delete;
 mod transaction_crypto_transfer;
 mod transaction_crypto_update;
+mod transaction_crypto_add_claim;
 
 mod transaction_file_create;
 mod transaction_file_delete;
 mod transaction_file_update;
+mod transaction_file_append;
