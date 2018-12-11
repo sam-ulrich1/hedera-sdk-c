@@ -2,6 +2,7 @@
 
 #include "hedera-transaction.h"
 #include "hedera-id.h"
+#include "hedera-duration.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -18,6 +19,8 @@ extern void hedera_transaction__crypto_create__set_proxy_account(HederaTransacti
 extern void hedera_transaction__crypto_create__set_proxy_fraction(HederaTransaction*, int32_t fraction);
 
 extern void hedera_transaction__crypto_create__set_max_receive_proxy_faction(HederaTransaction*, int32_t fraction);
+
+extern void hedera_transaction__crypto_create__set_auto_renew_period(HederaTransaction*, HederaDuration period);
 
 extern void hedera_transaction__crypto_create__send_record_threshold(HederaTransaction*, int64_t threshold);
 

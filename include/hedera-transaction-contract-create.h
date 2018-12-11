@@ -2,6 +2,7 @@
 
 #include "hedera-transaction.h"
 #include "hedera-id.h"
+#include "hedera-duration.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,6 +21,8 @@ extern void hedera_transaction__contract_create__set_initial_balance(HederaTrans
 extern void hedera_transaction__contract_create__set_proxy_account(HederaTransaction*, HederaAccountId id);
 
 extern void hedera_transaction__contract_create__set_proxy_fraction(HederaTransaction*, int32_t fraction);
+
+extern void hedera_transaction__contract_create__set_auto_renew_period(HederaTransaction*, HederaDuration period);
 
 extern void hedera_transaction__contract_create__set_constructor_parameters(HederaTransaction*, const uint8_t* parameters);
 

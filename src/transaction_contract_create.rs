@@ -2,6 +2,7 @@ use hedera::PublicKey;
 use hedera::transaction::TransactionContractCreate;
 use hedera::AccountId;
 use hedera::FileId;
+use std::time::Duration;
 
 def_tx_new!(TransactionContractCreate: hedera_transaction__contract_create__new);
 
@@ -27,7 +28,9 @@ def_tx_method!(
     TransactionContractCreate: hedera_transaction__contract_create__set_proxy_fraction(i32): proxy_fraction
 );
 
-//todo: auto_renew_period
+def_tx_method!(
+    TransactionContractCreate: hedera_transaction__contract_create__set_auto_renew_period(Duration): auto_renew_period
+);
 
 def_tx_method!(
     TransactionContractCreate: hedera_transaction__contract_create__set_constructor_parameters(Vec<u8>): constructor_parameters

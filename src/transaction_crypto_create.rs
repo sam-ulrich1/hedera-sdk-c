@@ -1,6 +1,7 @@
 use hedera::PublicKey;
 use hedera::transaction::TransactionCryptoCreate;
 use hedera::AccountId;
+use std::time::Duration;
 
 def_tx_new!(TransactionCryptoCreate: hedera_transaction__crypto_create__new);
 
@@ -23,7 +24,9 @@ def_tx_method!(
     TransactionCryptoCreate: hedera_transaction__crypto_create__set_max_receive_proxy_fraction(i32): max_receive_proxy_fraction
 );
 
-//todo: auto_renew_period
+def_tx_method!(
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_auto_renew_period(Duration): auto_renew_period
+);
 
 def_tx_method!(
     TransactionCryptoCreate: hedera_transaction__crypto_create__set_send_record_threshold(i64): send_record_threshold
