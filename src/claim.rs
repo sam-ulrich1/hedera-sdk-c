@@ -1,28 +1,53 @@
 use hedera::Claim;
 use hedera::{AccountId, PublicKey};
 
-use std::convert::TryInto;
+use std::convert::{TryInto, TryFrom};
+use failure::Error;
 
 #[repr(C)]
 #[derive(Debug, Clone, PartialEq)]
-pub struct CClaim(pub(crate) AccountId, pub(crate) Vec<u8>, pub(crate) Vec<PublicKey>);
+pub struct CClaim(
+    pub(crate) AccountId,
+    pub(crate) *const u8, // pointer to hash
+    pub(crate) usize, // hash len
+    pub(crate) usize, // hash capacity
+    pub(crate) *const PublicKey, // pointer to key list
+    pub(crate) usize, // key list len
+    pub(crate) usize, // key list capacity
+);
 
-impl From<CClaim> for Claim {
-    fn from(cclaim: CClaim) -> Self {
-        Claim{
-            account: cclaim.0.try_into().unwrap(),
-            hash: (cclaim.1).try_into().unwrap(),
-            keys: (cclaim.2).try_into().unwrap(),
-        }
+impl TryFrom<CClaim> for Claim {
+    type Error = failure::Error;
+
+    fn try_from(cclaim: CClaim) -> Result<Self, Error> {
+        let hash = unsafe{
+            Vec::from_raw_parts((cclaim.1).try_into()?, (cclaim.2).try_into()?, (cclaim.3).try_into())
+        };
+
+        let keys = unsafe{
+            Vec::from_raw_parts((cclaim.4).try_into()?, (cclaim.5).try_into()?, (cclaim.6).try_into()?)
+        };
+
+        Ok(Claim{
+            account: cclaim.0.try_into()?,
+            hash,
+            keys
+        })
     }
 }
 
-impl From<Claim> for CClaim {
-    fn from(claim: Claim) -> Self {
-        CClaim(
+impl TryFrom<Claim> for CClaim {
+    type Error = failure::Error;
+
+    fn try_from(claim: Claim) -> Result<Self, Error> {
+        Ok(CClaim(
             claim.account,
-            claim.hash,
-            claim.keys
-        )
+            claim.hash.as_ptr(),
+            claim.hash.capacity(),
+            claim.hash.len(),
+            claim.keys.as_ptr(),
+            claim.keys.capacity(),
+            claim.keys.len(),
+        ))
     }
 }
