@@ -8,12 +8,14 @@ mod crypto;
 mod errors;
 mod id;
 mod timestamp;
+mod duration;
 mod transaction_id;
 
 mod query;
 
 mod query_crypto_get_account_balance;
 mod query_get_transaction_receipt;
+mod query_transaction_get_record;
 
 mod transaction;
 
