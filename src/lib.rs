@@ -14,6 +14,7 @@ mod claim;
 
 mod query;
 
+// mod query_contract_get_bytecode;
 mod query_crypto_get_account_balance;
 mod query_get_transaction_receipt;
 mod query_transaction_get_record;
