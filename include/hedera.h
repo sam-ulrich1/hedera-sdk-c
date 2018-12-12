@@ -9,6 +9,7 @@
 #include "hedera-claim.h"
 
 #include "hedera-query.h"
+#include "hedera-query-contract-get-bytecode.h"
 #include "hedera-query-crypto-get-account-balance.h"
 #include "hedera-query-get-transaction-receipt.h"
 

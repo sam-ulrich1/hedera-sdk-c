@@ -9,7 +9,6 @@ extern "C" {
 
 extern HederaTransaction* hedera_transaction__file_delete__new(HederaClient*, HederaFileId id);
 
-
 #ifdef __cplusplus
 }
 #endif
