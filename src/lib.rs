@@ -10,6 +10,7 @@ mod id;
 mod timestamp;
 mod duration;
 mod transaction_id;
+mod transaction_record;
 mod claim;
 
 mod query;
