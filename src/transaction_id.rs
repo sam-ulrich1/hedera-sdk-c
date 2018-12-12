@@ -60,11 +60,15 @@ def_from_str!(hedera_transaction_id_from_str: CTransactionId);
 
 #[cfg(test)]
 mod tests {
-    use super::{CTransactionId, TransactionId, AccountId};
+    use super::{AccountId, CTransactionId, TransactionId};
 
     #[test]
     fn test_into() {
-        let rust = TransactionId::new(AccountId { realm: 0, shard: 0, account: 2 });
+        let rust = TransactionId::new(AccountId {
+            realm: 0,
+            shard: 0,
+            account: 2,
+        });
         let c: CTransactionId = rust.clone().into();
 
         assert_eq!(c.into(): TransactionId, rust);

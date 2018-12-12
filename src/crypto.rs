@@ -1,15 +1,19 @@
 use super::errors::HederaResult;
-use hedera::{ PublicKey, SecretKey, Signature };
+use hedera::{PublicKey, SecretKey, Signature};
 use std::slice;
 
 #[no_mangle]
-pub extern "C" fn hedera_secret_key_generate(s: *const libc::c_char, out: *mut *const libc::c_char ) -> SecretKey {
-    let s = unsafe { std::ffi::CStr::from_ptr(s) }.to_string_lossy();
-
-    let (key, phrase) = SecretKey::generate(&s);
+pub extern "C" fn hedera_secret_key_generate(
+    password: *const libc::c_char,
+    mnemonic_: *mut *mut libc::c_char,
+) -> SecretKey {
+    let password = unsafe { std::ffi::CStr::from_ptr(password) }.to_string_lossy();
+    let (key, mnemonic) = SecretKey::generate(&password);
 
     unsafe {
-        *out = Box::into_raw(phrase.into_boxed_str()) as _;
+        *mnemonic_ = mbox::MString::from_str(&mnemonic)
+            .into_mbox_with_sentinel()
+            .into_raw() as _;
     }
 
     key

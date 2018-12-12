@@ -1,7 +1,7 @@
-use hedera::PublicKey;
+use crate::duration::CDuration;
 use hedera::transaction::TransactionCryptoCreate;
 use hedera::AccountId;
-use std::time::Duration;
+use hedera::PublicKey;
 
 def_tx_new!(TransactionCryptoCreate: hedera_transaction__crypto_create__new);
 
@@ -13,31 +13,39 @@ def_tx_method!(
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_proxy_account(AccountId): proxy_account
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_proxy_account(AccountId):
+        proxy_account
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_proxy_fraction(i32): proxy_fraction
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_proxy_fraction(i32):
+        proxy_fraction
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_max_receive_proxy_fraction(i32): max_receive_proxy_fraction
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_max_receive_proxy_fraction(i32):
+        max_receive_proxy_fraction
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_auto_renew_period(Duration): auto_renew_period
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_auto_renew_period(CDuration):
+        auto_renew_period
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_send_record_threshold(i64): send_record_threshold
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_send_record_threshold(i64):
+        send_record_threshold
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_receive_record_threshold(i64): receive_record_threshold
+    TransactionCryptoCreate: hedera_transaction__crypto_create__set_receive_record_threshold(i64):
+        receive_record_threshold
 );
 
 def_tx_method!(
-    TransactionCryptoCreate: hedera_transaction__crypto_create__set_receiver_signature_required(bool): receiver_signature_required
+    TransactionCryptoCreate:
+        hedera_transaction__crypto_create__set_receiver_signature_required(bool):
+        receiver_signature_required
 );
 
 // todo: to proto

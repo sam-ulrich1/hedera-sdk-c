@@ -19,10 +19,9 @@ macro_rules! def_to_str {
     ($name:ident: $ty:ty) => {
         #[no_mangle]
         pub extern "C" fn $name(p: *mut $ty) -> *mut libc::c_char {
-            unsafe{
-                Box::into_raw((*p).to_string().into_boxed_str()) as _
-
-            }
+            mbox::MString::from_str(&unsafe { &(*p) }.to_string())
+                .into_mbox_with_sentinel()
+                .into_raw() as _
         }
     };
 }
@@ -48,12 +47,12 @@ macro_rules! def_from_str {
 
 #[macro_export]
 macro_rules! def_query_new {
-    ($constructor:ident: $name:ident($ty:ty) -> $rty:ident) => {
+    ($constructor:ident: $name:ident($ty:ty) -> $rty:ty) => {
         #[no_mangle]
         pub unsafe extern "C" fn $name(
             client: *mut hedera::Client,
             _1: $ty,
-        ) -> *mut hedera::query::Query<$rty> {
+        ) -> *mut hedera::query::Query<$constructor> {
             Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
         }
     };
@@ -61,10 +60,22 @@ macro_rules! def_query_new {
 
 #[macro_export]
 macro_rules! def_query_get {
-    ($name:ident -> $ty:ident) => {
+    ($constructor:ident: $name:ident -> Box<$ty:ty>) => {
         #[no_mangle]
         pub unsafe extern "C" fn $name(
-            query: *mut hedera::query::Query<$ty>,
+            query: *mut hedera::query::Query<$constructor>,
+            out: *mut *mut $ty,
+        ) -> crate::errors::HederaResult {
+            *out = Box::into_raw(Box::new(try_ffi!(Box::from_raw(query).get()).into()));
+
+            crate::errors::HederaResult::Success
+        }
+    };
+
+    ($constructor:ident: $name:ident -> $ty:ty) => {
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            query: *mut hedera::query::Query<$constructor>,
             out: *mut $ty,
         ) -> crate::errors::HederaResult {
             *out = try_ffi!(Box::from_raw(query).get());
@@ -91,7 +102,7 @@ macro_rules! def_tx_new {
             client: *mut hedera::Client,
             _1: $ty,
         ) -> *mut hedera::transaction::Transaction<$constructor> {
-            Box::into_raw(Box::new($constructor::new(&*client, _1)))
+            Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
         }
     };
 
@@ -102,7 +113,7 @@ macro_rules! def_tx_new {
             _1: $p1,
             _2: $p2,
         ) -> *mut hedera::transaction::Transaction<$constructor> {
-            Box::into_raw(Box::new($constructor::new(&*client, _1, _2)))
+            Box::into_raw(Box::new($constructor::new(&*client, _1.into(), _2.into())))
         }
     };
 }
@@ -115,7 +126,7 @@ macro_rules! def_tx_method {
             tx: *mut hedera::transaction::Transaction<$constructor>,
             _1: $ty,
         ) {
-            (&mut *tx).$member(_1);
+            (&mut *tx).$member(_1.into());
         }
     };
 
@@ -126,7 +137,7 @@ macro_rules! def_tx_method {
             _1: $p1,
             _2: $p2,
         ) {
-            (&mut *tx).$member(_1, _2);
+            (&mut *tx).$member(_1.into(), _2.into());
         }
     };
 }

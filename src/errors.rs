@@ -1,5 +1,6 @@
 use failure::Error;
 use libc::c_char;
+use mbox::MString;
 use once_cell::{sync::Lazy, sync_lazy};
 use parking_lot::Mutex;
 use std::ptr::null_mut;
@@ -18,7 +19,10 @@ pub(crate) static ERROR: Lazy<Mutex<Option<Error>>> = sync_lazy! {
 #[no_mangle]
 pub extern "C" fn hedera_last_error() -> *mut c_char {
     match ERROR.lock().take() {
-        Some(err) => Box::into_raw(err.to_string().into_boxed_str()) as _,
+        Some(err) => MString::from_str(&err.to_string())
+            .into_mbox_with_sentinel()
+            .into_raw() as _,
+
         None => null_mut(),
     }
 }

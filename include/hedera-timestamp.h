@@ -8,7 +8,7 @@ extern "C" {
 
 typedef struct {
     int64_t seconds;
-    int32_t nanos;
+    uint32_t nanos;
 } HederaTimestamp;
 
 extern HederaTimestamp hedera_timestamp_now();

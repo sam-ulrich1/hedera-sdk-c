@@ -7,8 +7,8 @@ extern "C" {
 #endif
 
 typedef struct {
-    int64_t seconds;
-    int32_t nanos;
+    uint64_t seconds;
+    uint32_t nanos;
 } HederaDuration;
 
 #ifdef __cplusplus

@@ -7,5 +7,3 @@ def_tx_method!(
     TransactionCryptoDelete: hedera_transaction__crypto_delete__set_transfer_to(AccountId):
         transfer_to
 );
-
-// todo: to proto
