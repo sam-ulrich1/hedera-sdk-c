@@ -19,7 +19,6 @@
 #include "hedera-transaction-contract-call.h"
 #include "hedera-transaction-contract-create.h"
 #include "hedera-transaction-contract-update.h"
-#include "hedera-transaction-crypto-add-claim.h"
 #include "hedera-transaction-crypto-create.h"
 #include "hedera-transaction-crypto-transfer.h"
 #include "hedera-transaction-file-append.h"
