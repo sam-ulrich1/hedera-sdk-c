@@ -4,14 +4,12 @@ use std::slice;
 
 #[no_mangle]
 pub extern "C" fn hedera_secret_key_generate(s: *const libc::c_char, out: *mut *const libc::c_char ) -> SecretKey {
-    let s = unsafe { std::ffi::CStr::from_ptr(s) }. to_string_lossy();
+    let s = unsafe { std::ffi::CStr::from_ptr(s) }.to_string_lossy();
 
     let (key, phrase) = SecretKey::generate(&s);
 
     unsafe {
-        *out = mbox::MString::from_str(&phrase)
-            .into_mbox_with_sentinel()
-            .into_raw() as _;
+        *out = Box::into_raw(phrase.into_boxed_str()) as _;
     }
 
     key

@@ -1,6 +1,4 @@
-use hedera::Claim;
-use hedera::{AccountId, PublicKey};
-
+use hedera::{Claim, AccountId, PublicKey };
 use std::convert::{TryInto, TryFrom};
 use failure::Error;
 
@@ -14,23 +12,12 @@ pub struct CClaim(
     pub(crate) usize, // key list len
 );
 
-impl TryFrom<CClaim> for Claim {
-    type Error = failure::Error;
-
-    fn try_from(cclaim: CClaim) -> Result<Self, Error> {
-        let hash = unsafe{
-            Vec::from_raw_parts((cclaim.1).try_into()?, (cclaim.2).try_into()?, (cclaim.3).try_into())
+impl Drop for CClaim {
+    fn drop(&mut self) {
+        unsafe {
+            Box::from_raw(&mut self.1);
+            Box::from_raw(&mut self.3);
         };
-
-        let keys = unsafe{
-            Vec::from_raw_parts((cclaim.4).try_into()?, (cclaim.5).try_into()?, (cclaim.6).try_into()?)
-        };
-
-        Ok(Claim{
-            account: cclaim.0.try_into()?,
-            hash,
-            keys
-        })
     }
 }
 
@@ -38,14 +25,19 @@ impl TryFrom<Claim> for CClaim {
     type Error = failure::Error;
 
     fn try_from(claim: Claim) -> Result<Self, Error> {
+
+        let hash_length = claim.hash.len();
+        let keys_length = claim.keys.len();
+
+        let hash = Box::into_raw(claim.hash.into_boxed_slice()) as _;
+        let keys = Box::into_raw(claim.keys.into_boxed_slice()) as _;
+
         Ok(CClaim(
-            claim.account,
-            claim.hash.as_ptr(),
-            claim.hash.capacity(),
-            claim.hash.len(),
-            claim.keys.as_ptr(),
-            claim.keys.capacity(),
-            claim.keys.len(),
+            claim.account.try_into()?,
+            hash,
+            hash_length,
+            keys,
+            keys_length,
         ))
     }
 }

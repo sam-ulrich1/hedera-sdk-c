@@ -19,9 +19,10 @@ macro_rules! def_to_str {
     ($name:ident: $ty:ty) => {
         #[no_mangle]
         pub extern "C" fn $name(p: *mut $ty) -> *mut libc::c_char {
-            mbox::MString::from_str(&unsafe { &(*p) }.to_string())
-                .into_mbox_with_sentinel()
-                .into_raw() as _
+            unsafe{
+                Box::into_raw((*p).to_string().into_boxed_str()) as _
+
+            }
         }
     };
 }
