@@ -15,9 +15,12 @@ mod timestamp;
 mod transaction_id;
 mod transaction_record;
 
+mod contract_info;
+
 mod query_crypto_get_account_balance;
 
 mod query_contract_get_bytecode;
+mod query_contract_get_info;
 
 mod query_transaction_get_receipt;
 mod query_transaction_get_record;
