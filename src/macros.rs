@@ -78,7 +78,7 @@ macro_rules! def_query_get {
             query: *mut hedera::query::Query<$constructor>,
             out: *mut $ty,
         ) -> crate::errors::HederaResult {
-            *out = try_ffi!(Box::from_raw(query).get());
+            *out = try_ffi!(Box::from_raw(query).get()).into();
 
             crate::errors::HederaResult::Success
         }
