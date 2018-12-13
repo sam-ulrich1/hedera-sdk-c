@@ -15,8 +15,6 @@ mod timestamp;
 mod transaction_id;
 mod transaction_record;
 
-mod query;
-
 mod query_crypto_get_account_balance;
 
 mod query_contract_get_bytecode;

@@ -13,7 +13,8 @@ void print_hedera_error() {
 int main() {
     // Generate a key pair for the new account to use
 
-    HederaSecretKey secret = hedera_secret_key_generate();
+    char* mnemonic;
+    HederaSecretKey secret = hedera_secret_key_generate("", &mnemonic);
     HederaPublicKey public = hedera_public_key_from_secret_key(&secret);
 
     char *secret_s = hedera_secret_key_to_str(&secret);
@@ -24,6 +25,7 @@ int main() {
 
     free(secret_s);
     free(public_s);
+    free(mnemonic);
 
     // Operator is the account that sends the transaction to the network
     // This account is charged for the transaction fee
