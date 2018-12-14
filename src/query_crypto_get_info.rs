@@ -1,6 +1,4 @@
 use hedera::{query::QueryCryptoGetInfo, AccountId};
-use contract_info::CContractInfo;
+use crate::account_info::CAccountInfo;
 
-def_query!(QueryContractGetInfo: crypto_get_info(AccountId) -> CContractInfo);
-
-
+def_query!(QueryCryptoGetInfo: crypto_get_info(AccountId) -> CAccountInfo);

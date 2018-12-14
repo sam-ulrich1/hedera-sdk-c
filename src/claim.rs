@@ -1,6 +1,6 @@
 use crate::array::CArray;
 use hedera::{AccountId, Claim, PublicKey};
-use std::{convert::TryFrom, slice};
+use std::slice;
 
 #[repr(C)]
 #[derive(Debug)]

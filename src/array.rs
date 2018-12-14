@@ -29,7 +29,7 @@ impl<T> From<Vec<T>> for CArray<T> {
 #[macro_export]
 macro_rules! vec_to_carray {
     ($rt:ty, $ct:ty) => {
-        impl From<Vec<$rt>> for CArray<$ct> {
+        impl From<Vec<$rt>> for crate::array::CArray<$ct> {
             fn from(data: Vec<$rt>) -> Self {
                 let data = data.into_iter().map(Into::into).collect::<Vec<$ct>>();
                 let mut data = data.into_boxed_slice();
@@ -37,7 +37,7 @@ macro_rules! vec_to_carray {
 
                 std::mem::forget(data);
 
-                Self { ptr, len }
+                crate::array::CArray { ptr, len }
             }
         }
     };
