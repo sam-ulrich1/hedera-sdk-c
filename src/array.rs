@@ -27,18 +27,18 @@ impl<T> From<Vec<T>> for CArray<T> {
 }
 
 #[macro_export]
-macro_rules! vec_to_carray{
+macro_rules! vec_to_carray {
     ($rt:ty, $ct:ty) => {
         impl From<Vec<$rt>> for CArray<$ct> {
-           fn from(data: Vec<$rt>) -> Self {
-               let data = data.into_iter().map(Into::into).collect::<Vec<$ct>>();
-               let mut data = data.into_boxed_slice();
-               let (ptr, len) = (data.as_mut_ptr(), data.len());
+            fn from(data: Vec<$rt>) -> Self {
+                let data = data.into_iter().map(Into::into).collect::<Vec<$ct>>();
+                let mut data = data.into_boxed_slice();
+                let (ptr, len) = (data.as_mut_ptr(), data.len());
 
-               std::mem::forget(data);
+                std::mem::forget(data);
 
-               Self { ptr, len }
-           }
+                Self { ptr, len }
+            }
         }
-    }
+    };
 }

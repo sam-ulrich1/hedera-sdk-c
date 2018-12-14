@@ -1,14 +1,9 @@
-use hedera::{ AccountInfo, AccountId, PublicKey };
-use mbox::MString;
-use crate::{
-    timestamp::CTimestamp,
-    duration::CDuration,
-    array::CArray,
-    claim::CClaim,
-};
-use std::convert::TryFrom;
+use crate::{array::CArray, claim::CClaim, duration::CDuration, timestamp::CTimestamp};
 use core::slice;
 use hedera::Claim;
+use hedera::{AccountId, AccountInfo, PublicKey};
+use mbox::MString;
+use std::convert::TryFrom;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -26,7 +21,7 @@ pub struct CAccountInfo {
     pub receiver_signature_required: bool,
     pub expiration_time: CTimestamp,
     pub auto_renew_period: CDuration,
-    pub claims: CArray<CClaim>
+    pub claims: CArray<CClaim>,
 }
 
 impl Drop for CAccountInfo {
@@ -45,11 +40,12 @@ impl From<AccountInfo> for CAccountInfo {
             .into_mbox_with_sentinel()
             .into_raw() as _;
 
-        let claims = account_info.claims.into_iter()
+        let claims = account_info
+            .claims
+            .into_iter()
             .map(Into::into)
             .collect::<Vec<CClaim>>()
             .into();
-
 
         CAccountInfo {
             account_id: account_info.account_id,
@@ -74,21 +70,26 @@ impl TryFrom<CAccountInfo> for AccountInfo {
     type Error = failure::Error;
 
     fn try_from(c_account_info: CAccountInfo) -> Result<Self, Self::Error> {
-
-        let contract_account_id = unsafe {
-            std::ffi::CStr::from_ptr(c_account_info.contract_account_id)
-        }.to_str()?.into();
+        let contract_account_id =
+            unsafe { std::ffi::CStr::from_ptr(c_account_info.contract_account_id) }
+                .to_str()?
+                .into();
 
         let proxy_account_id = match c_account_info.proxy_account_id.clone() {
             Some(proxy_account_id) => Some(*proxy_account_id),
-            None => None
+            None => None,
         };
 
-        let claims = unsafe{
-            Vec::from_raw_parts(c_account_info.claims.ptr, c_account_info.claims.len, c_account_info.claims.len).into_iter()
-                .map(Into::into)
-                .collect::<Vec<Claim>>()
-                .into()
+        let claims = unsafe {
+            Vec::from_raw_parts(
+                c_account_info.claims.ptr,
+                c_account_info.claims.len,
+                c_account_info.claims.len,
+            )
+            .into_iter()
+            .map(Into::into)
+            .collect::<Vec<Claim>>()
+            .into()
         };
 
         Ok(AccountInfo {
@@ -105,7 +106,7 @@ impl TryFrom<CAccountInfo> for AccountInfo {
             receiver_signature_required: c_account_info.receiver_signature_required,
             expiration_time: c_account_info.expiration_time.into(),
             auto_renew_period: c_account_info.auto_renew_period.into(),
-            claims
+            claims,
         })
     }
 }

@@ -1,9 +1,6 @@
-use hedera::{ ContractInfo, ContractId, AccountId, PublicKey };
+use crate::{duration::CDuration, timestamp::CTimestamp};
+use hedera::{AccountId, ContractId, ContractInfo, PublicKey};
 use mbox::MString;
-use crate::{
-    timestamp::CTimestamp,
-    duration::CDuration,
-};
 use std::convert::TryFrom;
 
 #[repr(C)]
@@ -41,7 +38,7 @@ impl From<ContractInfo> for CContractInfo {
             admin_key: contract_info.admin_key.map(|t| Box::new(t.into())),
             expiration_time: contract_info.expiration_time.into(),
             auto_renew_period: contract_info.auto_renew_period.into(),
-            storage: contract_info.storage
+            storage: contract_info.storage,
         }
     }
 }
@@ -50,14 +47,14 @@ impl TryFrom<CContractInfo> for ContractInfo {
     type Error = failure::Error;
 
     fn try_from(c_contract_info: CContractInfo) -> Result<Self, Self::Error> {
+        let contract_account_id =
+            unsafe { std::ffi::CStr::from_ptr(c_contract_info.contract_account_id) }
+                .to_str()?
+                .into();
 
-        let contract_account_id = unsafe {
-            std::ffi::CStr::from_ptr(c_contract_info.contract_account_id)
-        }.to_str()?.into();
-
-        let admin_key = match c_contract_info.admin_key.clone()  {
+        let admin_key = match c_contract_info.admin_key.clone() {
             Some(admin_key) => Some(*admin_key),
-            None => None
+            None => None,
         };
 
         Ok(ContractInfo {

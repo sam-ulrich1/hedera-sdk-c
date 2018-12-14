@@ -51,7 +51,7 @@ macro_rules! def_from_str {
 macro_rules! def_query {
     // a single parameter query
     ($constructor:ident: $verb:ident($p:ty) -> $cty:ty) => {
-    paste::item! {
+        paste::item! {
             #[no_mangle]
             pub unsafe extern "C" fn [<hedera_query__ $verb __new>] (
                 client: *mut hedera::Client,
@@ -94,9 +94,8 @@ macro_rules! def_query {
                 crate::errors::HederaResult::Success
             }
         }
-    }
+    };
 }
-
 
 #[macro_export]
 macro_rules! def_tx_new {
