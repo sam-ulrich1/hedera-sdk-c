@@ -1,7 +1,4 @@
 use hedera::{ query::QueryContractGetRecords, ContractId, TransactionRecord };
+use crate::{ transaction_record::CTransactionRecord, array::CArray };
 
-def_query_new!(
-    QueryContractGetInfo: hedera_query__contract_get_info__new(ContractId) -> ContractInfo
-);
-
-def_query_get!(QueryContractGetInfo: hedera_query__contract_get_info__get -> ContractInfo);
+def_query!(QueryContractGetRecords: contract_get_records(ContractId) -> CArray<CTransactionRecord>);

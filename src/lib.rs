@@ -3,8 +3,10 @@
 #[macro_use]
 mod macros;
 
-mod alloc;
+#[macro_use]
 mod array;
+
+mod alloc;
 mod claim;
 mod client;
 mod crypto;
@@ -15,13 +17,16 @@ mod timestamp;
 mod transaction_id;
 mod transaction_record;
 
+mod account_info;
 mod contract_info;
-
-mod query_crypto_get_account_balance;
 
 mod query_contract_get_bytecode;
 mod query_contract_get_info;
-// mod query_contract_get_records;
+mod query_contract_get_records;
+
+mod query_crypto_get_account_balance;
+mod query_crypto_get_account_records;
+mod query_crypto_get_claim;
 
 mod query_transaction_get_receipt;
 mod query_transaction_get_record;

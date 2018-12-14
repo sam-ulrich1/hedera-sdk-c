@@ -47,20 +47,20 @@ impl From<ContractInfo> for CContractInfo {
 }
 
 impl TryFrom<CContractInfo> for ContractInfo {
-    type Error = crate::errors::HederaResult;
+    type Error = failure::Error;
 
-    fn try_from(c_contract_info: CContractInfo) -> Self {
+    fn try_from(c_contract_info: CContractInfo) -> Result<Self, Self::Error> {
 
         let contract_account_id = unsafe {
             std::ffi::CStr::from_ptr(c_contract_info.contract_account_id)
-        }.to_str().unwrap().into();
+        }.to_str()?.into();
 
-        let admin_key = match c_contract_info.admin_key  {
-            Some(admin_key) => Some(admin_key),
+        let admin_key = match c_contract_info.admin_key.clone()  {
+            Some(admin_key) => Some(*admin_key),
             None => None
         };
 
-        ContractInfo {
+        Ok(ContractInfo {
             contract_id: c_contract_info.contract_id,
             account_id: c_contract_info.account_id,
             contract_account_id,
@@ -68,6 +68,6 @@ impl TryFrom<CContractInfo> for ContractInfo {
             expiration_time: c_contract_info.expiration_time.into(),
             auto_renew_period: c_contract_info.auto_renew_period.into(),
             storage: c_contract_info.storage,
-        }
+        })
     }
 }

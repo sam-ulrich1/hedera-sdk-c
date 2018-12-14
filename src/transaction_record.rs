@@ -142,3 +142,5 @@ impl From<ContractLogInfo> for CContractLogInfo {
         }
     }
 }
+
+vec_to_carray!(TransactionRecord, CTransactionRecord);
