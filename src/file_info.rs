@@ -16,7 +16,6 @@ pub struct CFileInfo {
 
 impl From<FileInfo> for CFileInfo {
     fn from(file_info: FileInfo) -> Self {
-
         CFileInfo {
             file_id: file_info.file_id,
             size: file_info.size,
@@ -31,17 +30,16 @@ impl TryFrom<CFileInfo> for FileInfo {
     type Error = failure::Error;
 
     fn try_from(c_file_info: CFileInfo) -> Result<Self, Self::Error> {
-
         let keys = unsafe {
             Vec::from_raw_parts(
                 c_file_info.keys.ptr,
                 c_file_info.keys.len,
                 c_file_info.keys.len,
             )
-                .into_iter()
-                .map(Into::into)
-                .collect::<Vec<PublicKey>>()
-                .into()
+            .into_iter()
+            .map(Into::into)
+            .collect::<Vec<PublicKey>>()
+            .into()
         };
 
         Ok(FileInfo {

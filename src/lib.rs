@@ -11,12 +11,12 @@ mod claim;
 mod client;
 mod crypto;
 mod duration;
+mod entity;
 mod errors;
 mod id;
 mod timestamp;
 mod transaction_id;
 mod transaction_record;
-mod entity;
 
 mod account_info;
 mod contract_info;
