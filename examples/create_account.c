@@ -108,19 +108,20 @@ int main() {
     sleep(5);
 
     // Grab the transaction receipt
-    HederaTransactionReceipt receipt;
-    HederaQuery *query = hedera_query__get_transaction_receipt__new(client, id);
-    if (hedera_query__get_transaction_receipt__get(query, &receipt) != HEDERA_ERROR_SUCCESS) {
+    HederaTransactionReceipt* receipt;
+    HederaQuery *query = hedera_query__transaction_get_receipt__new(client, id);
+    if (hedera_query__transaction_get_receipt__get(query, &receipt) != HEDERA_ERROR_SUCCESS) {
         print_hedera_error();
         hedera_client_close(client);
         return EXIT_FAILURE;
     }
 
     // Print our new account ID
-    printf("account = %lli\n", receipt.account_id->account);
+    printf("account = %lli\n", receipt->account_id->account);
 
     // Drop the connection to the Hedera node
     hedera_client_close(client);
+    hedera_free(receipt);
 
     return EXIT_SUCCESS;
 }
