@@ -6,7 +6,7 @@
 extern "C" {
 #endif
 
-extern void hedera_client_close(void*);
+extern void hedera_free(void*);
 
 #ifdef __cplusplus
 }
