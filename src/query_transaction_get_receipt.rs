@@ -1,9 +1,5 @@
-use super::transaction_id::CTransactionId;
-use hedera::{query::QueryTransactionGetReceipt, TransactionReceipt};
+use hedera::{query::QueryTransactionGetReceipt, TransactionId, TransactionReceipt};
 
-def_query_new!(
-    QueryTransactionGetReceipt:
-        hedera_query__get_transaction_receipt__new(CTransactionId) -> TransactionReceipt
+def_query!(
+    QueryTransactionGetReceipt: transaction_get_receipt(TransactionId) -> TransactionReceipt
 );
-
-def_query_get!(QueryTransactionGetReceipt: hedera_query__get_transaction_receipt__get -> TransactionReceipt);

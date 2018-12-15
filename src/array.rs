@@ -3,8 +3,8 @@ use std::{mem, slice};
 #[repr(C)]
 #[derive(Debug)]
 pub struct CArray<T> {
-    ptr: *mut T,
-    len: usize,
+    pub ptr: *mut T,
+    pub len: usize,
 }
 
 impl<T> Drop for CArray<T> {
@@ -24,4 +24,21 @@ impl<T> From<Vec<T>> for CArray<T> {
 
         Self { ptr, len }
     }
+}
+
+#[macro_export]
+macro_rules! vec_to_carray {
+    ($rt:ty, $ct:ty) => {
+        impl From<Vec<$rt>> for crate::array::CArray<$ct> {
+            fn from(data: Vec<$rt>) -> Self {
+                let data = data.into_iter().map(Into::into).collect::<Vec<$ct>>();
+                let mut data = data.into_boxed_slice();
+                let (ptr, len) = (data.as_mut_ptr(), data.len());
+
+                std::mem::forget(data);
+
+                crate::array::CArray { ptr, len }
+            }
+        }
+    };
 }

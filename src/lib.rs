@@ -1,23 +1,40 @@
-#![feature(try_from, type_ascription)]
+#![feature(try_from, type_ascription, untagged_unions)]
 
 #[macro_use]
 mod macros;
 
-mod alloc;
+#[macro_use]
 mod array;
+
+mod alloc;
 mod claim;
 mod client;
 mod crypto;
 mod duration;
+mod entity;
 mod errors;
 mod id;
 mod timestamp;
 mod transaction_id;
 mod transaction_record;
 
-mod query_crypto_get_account_balance;
+mod account_info;
+mod contract_info;
+mod file_info;
 
 mod query_contract_get_bytecode;
+mod query_contract_get_info;
+mod query_contract_get_records;
+
+mod query_crypto_get_account_balance;
+mod query_crypto_get_account_records;
+mod query_crypto_get_claim;
+mod query_crypto_get_info;
+
+mod query_file_get_contents;
+mod query_file_get_info;
+
+mod query_get_by_key;
 
 mod query_transaction_get_receipt;
 mod query_transaction_get_record;

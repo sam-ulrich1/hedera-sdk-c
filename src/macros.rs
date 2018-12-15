@@ -1,3 +1,5 @@
+extern crate paste;
+
 #[macro_export]
 macro_rules! try_ffi {
     ($expr:expr) => {
@@ -46,41 +48,51 @@ macro_rules! def_from_str {
 }
 
 #[macro_export]
-macro_rules! def_query_new {
-    ($constructor:ident: $name:ident($ty:ty) -> $rty:ty) => {
-        #[no_mangle]
-        pub unsafe extern "C" fn $name(
-            client: *mut hedera::Client,
-            _1: $ty,
-        ) -> *mut hedera::query::Query<$constructor> {
-            Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
+macro_rules! def_query {
+    // a single parameter query
+    ($constructor:ident: $verb:ident($p:ty) -> $cty:ty) => {
+        paste::item! {
+            #[no_mangle]
+            pub unsafe extern "C" fn [<hedera_query__ $verb __new>] (
+                client: *mut hedera::Client,
+                _1: $p,
+            ) -> *mut hedera::query::Query<$constructor> {
+                Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
+            }
+
+            #[no_mangle]
+            pub unsafe extern "C" fn [<hedera_query__ $verb __get>] (
+                query: *mut hedera::query::Query<$constructor>,
+                out: *mut $cty,
+            ) -> crate::errors::HederaResult {
+                *out = try_ffi!(Box::from_raw(query).get()).into();
+
+                crate::errors::HederaResult::Success
+            }
         }
     };
-}
 
-#[macro_export]
-macro_rules! def_query_get {
-    ($constructor:ident: $name:ident -> Box<$ty:ty>) => {
-        #[no_mangle]
-        pub unsafe extern "C" fn $name(
-            query: *mut hedera::query::Query<$constructor>,
-            out: *mut *mut $ty,
-        ) -> crate::errors::HederaResult {
-            *out = Box::into_raw(Box::new(try_ffi!(Box::from_raw(query).get()).into()));
+    // a double parameter query
+    ($constructor:ident: $verb:ident($p1:ty, $p2:ty) -> $cty:ty) => {
+        paste::item! {
+            #[no_mangle]
+            pub unsafe extern "C" fn [<hedera_query__ $verb __new>]  (
+                client: *mut hedera::Client,
+                _1: $p1,
+                _2: $p2,
+            ) -> *mut hedera::query::Query<$constructor> {
+                Box::into_raw(Box::new($constructor::new(&*client, _1.into(), _2.into())))
+            }
 
-            crate::errors::HederaResult::Success
-        }
-    };
+            #[no_mangle]
+            pub unsafe extern "C" fn [<hedera_query__ $verb __get>] (
+                query: *mut hedera::query::Query<$constructor>,
+                out: *mut $cty,
+            ) -> crate::errors::HederaResult {
+                *out = try_ffi!(Box::from_raw(query).get()).into();
 
-    ($constructor:ident: $name:ident -> $ty:ty) => {
-        #[no_mangle]
-        pub unsafe extern "C" fn $name(
-            query: *mut hedera::query::Query<$constructor>,
-            out: *mut $ty,
-        ) -> crate::errors::HederaResult {
-            *out = try_ffi!(Box::from_raw(query).get());
-
-            crate::errors::HederaResult::Success
+                crate::errors::HederaResult::Success
+            }
         }
     };
 }

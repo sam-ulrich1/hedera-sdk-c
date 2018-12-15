@@ -1,5 +1,6 @@
 use crate::array::CArray;
 use hedera::{AccountId, Claim, PublicKey};
+use std::slice;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -18,3 +19,28 @@ impl From<Claim> for CClaim {
         }
     }
 }
+
+impl From<CClaim> for Claim {
+    fn from(c_claim: CClaim) -> Claim {
+        let hash = unsafe {
+            Vec::from(Box::from(slice::from_raw_parts(
+                c_claim.hash.ptr,
+                c_claim.hash.len,
+            )))
+            .into_iter()
+            .map(Into::into)
+            .collect::<Vec<u8>>()
+        };
+
+        let keys: Vec<PublicKey> =
+            unsafe { Vec::from(slice::from_raw_parts(c_claim.keys.ptr, c_claim.keys.len)) };
+
+        Claim {
+            account: c_claim.account,
+            hash,
+            keys,
+        }
+    }
+}
+
+vec_to_carray!(Claim, CClaim);
