@@ -8,11 +8,14 @@
  extern "C" {
  #endif
 
- typedef union {
-     HederaAccountId account;
-     HederaClaim claim;
-     HederaFileId file;
-     HederaContractId contract;
+ typedef struct {
+     unsigned tag;
+     union {
+         HederaAccountId account;
+         HederaClaim claim;
+         HederaFileId file;
+         HederaContractId contract;
+    };
 
 } HederaEntity;
 
