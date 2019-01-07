@@ -1,4 +1,4 @@
-#![feature(try_from, type_ascription, untagged_unions)]
+#![feature(try_from, type_ascription, untagged_unions, maybe_uninit)]
 
 #[macro_use]
 mod macros;

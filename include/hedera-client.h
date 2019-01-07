@@ -1,6 +1,7 @@
 #pragma  once
 
 #include "hedera-id.h"
+#include "hedera-crypto.h"
 #include "hedera-error.h"
 
 #ifdef __cplusplus
@@ -78,6 +79,12 @@ typedef struct HederaClient HederaClient;
 /// Establish a connection to a Hedera node.
 /// Must be closed with [hedera_client_close].
 extern HederaError hedera_client_new(const char* address, HederaClient**);
+
+extern void hedera_client_set_node(HederaClient*, HederaAccountId node_id);
+
+extern void hedera_client_set_operator(
+    HederaClient*, HederaAccountId operator_id,
+    int (*get_secret_key)(HederaSecretKey* out));
 
 /// Close and releases resources for a [HederaClient].
 extern void hedera_client_close(HederaClient*);
