@@ -84,7 +84,8 @@ extern void hedera_client_set_node(HederaClient*, HederaAccountId node_id);
 
 extern void hedera_client_set_operator(
     HederaClient*, HederaAccountId operator_id,
-    int (*get_secret_key)(HederaSecretKey* out));
+    int (*get_secret_key)(void* user_data, HederaSecretKey* out),
+    void* user_data);
 
 /// Close and releases resources for a [HederaClient].
 extern void hedera_client_close(HederaClient*);

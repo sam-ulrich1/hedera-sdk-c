@@ -10,22 +10,6 @@ void print_hedera_error() {
     free(err);
 }
 
-int get_operator_secret(HederaSecretKey* out) {
-    char* operator_secret_s = getenv("OPERATOR_SECRET");
-    if (!operator_secret_s) {
-        fprintf(stderr, "error: OPERATOR_SECRET env variable must be set\n");
-        return EXIT_FAILURE;
-    }
-
-    if (hedera_secret_key_from_str(operator_secret_s, out) != HEDERA_ERROR_SUCCESS) {
-        print_hedera_error();
-
-        return EXIT_FAILURE;
-    }
-
-    return EXIT_SUCCESS;
-}
-
 int main() {
     // Generate a key pair for the new account to use
 

@@ -9,6 +9,22 @@ void print_hedera_error() {
     free(err);
 }
 
+int get_operator_secret(void* user_data, HederaSecretKey* out) {
+    char* operator_secret_s = getenv("OPERATOR_SECRET");
+    if (!operator_secret_s) {
+        fprintf(stderr, "error: OPERATOR_SECRET env variable must be set\n");
+        return EXIT_FAILURE;
+    }
+
+    if (hedera_secret_key_from_str(operator_secret_s, out) != HEDERA_ERROR_SUCCESS) {
+        print_hedera_error();
+
+        return EXIT_FAILURE;
+    }
+
+    return EXIT_SUCCESS;
+}
+
 int main() {
     HederaAccountId target = { 0, 0, 2 };
 
@@ -22,7 +38,7 @@ int main() {
     HederaAccountId node = { 0, 0, 3 };
     hedera_client_set_node(client, node);
 
-    hedera_client_set_operator(client, target, &get_operator_secret);
+    hedera_client_set_operator(client, target, &get_operator_secret, NULL);
 
     HederaQuery* query = hedera_query__crypto_get_account_balance__new(client, target);
 
