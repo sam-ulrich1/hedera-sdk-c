@@ -8,7 +8,7 @@ edition = "2018"
 crate-type = ["staticlib"]
 
 [dependencies]
-hedera = "0.4"
+hedera = "0.4.1"
 libc = { version = "0.2.44" }
 slotmap = { version = "0.3.0", features = [ "unstable" ] }
 once_cell = "0.1.6"
