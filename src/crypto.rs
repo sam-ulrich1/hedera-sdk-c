@@ -22,8 +22,6 @@ pub extern "C" fn hedera_secret_key_generate(
 def_to_str!(hedera_secret_key_to_str: SecretKey);
 def_from_str!(hedera_secret_key_from_str: SecretKey);
 
-//vec_to_carray!(SecretKey, SecretKey);
-
 #[no_mangle]
 pub extern "C" fn hedera_public_key_from_secret_key(p: *const SecretKey) -> PublicKey {
     (unsafe { &*p }).public()
@@ -31,7 +29,6 @@ pub extern "C" fn hedera_public_key_from_secret_key(p: *const SecretKey) -> Publ
 
 def_to_str!(hedera_public_key_to_str: PublicKey);
 def_from_str!(hedera_public_key_from_str: PublicKey);
-//vec_to_carray!(PublicKey, PublicKey);
 
 #[no_mangle]
 pub extern "C" fn hedera_crypto_sign(
@@ -68,4 +65,3 @@ pub extern "C" fn hedera_crypto_verify(
 
 def_to_str!(hedera_signature_to_str: Signature);
 def_from_str!(hedera_signature_from_str: Signature);
-//vec_to_carray!(Signature, Signature);
