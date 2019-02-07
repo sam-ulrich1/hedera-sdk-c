@@ -108,6 +108,23 @@ macro_rules! def_tx_new {
         }
     };
 
+    ($constructor:ident: $name:ident(array_of($ty:ty))) => {
+        use std::slice;
+
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            client: *mut hedera::Client,
+            _1: *const $ty,
+            _1_len: usize
+        ) -> *mut hedera::transaction::Transaction<$constructor> {
+
+            let _1 = slice::from_raw_parts(_1, _1_len);
+
+            Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
+        }
+    };
+
+
     ($constructor:ident: $name:ident($ty:ty)) => {
         #[no_mangle]
         pub unsafe extern "C" fn $name(
@@ -115,6 +132,22 @@ macro_rules! def_tx_new {
             _1: $ty,
         ) -> *mut hedera::transaction::Transaction<$constructor> {
             Box::into_raw(Box::new($constructor::new(&*client, _1.into())))
+        }
+    };
+
+    ($constructor:ident: $name:ident($p1:ty, array_of($p2:ty))) => {
+        use std::slice;
+
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            client: *mut hedera::Client,
+            _1: $p1,
+            _2: *const $p2,
+            _2_len: usize
+        ) -> *mut hedera::transaction::Transaction<$constructor> {
+            let _2 = slice::from_raw_parts(_2, _2_len);
+
+            Box::into_raw(Box::new($constructor::new(&*client, _1.into(), _2.into())))
         }
     };
 
@@ -128,10 +161,26 @@ macro_rules! def_tx_new {
             Box::into_raw(Box::new($constructor::new(&*client, _1.into(), _2.into())))
         }
     };
+
 }
 
 #[macro_export]
 macro_rules! def_tx_method {
+    ($constructor:ident: $name:ident(array_of($ty:ty)): $member:ident) => {
+        use std::slice;
+
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            tx: *mut hedera::transaction::Transaction<$constructor>,
+            _1: *const $ty,
+            _1_len: usize
+        ) {
+            let _1 = slice::from_raw_parts(_1, _1_len);
+
+            (&mut *tx).$member(_1.into());
+        }
+    };
+
     ($constructor:ident: $name:ident($ty:ty): $member:ident) => {
         #[no_mangle]
         pub unsafe extern "C" fn $name(
@@ -139,6 +188,23 @@ macro_rules! def_tx_method {
             _1: $ty,
         ) {
             (&mut *tx).$member(_1.into());
+        }
+    };
+    
+    ($constructor:ident: $name:ident($p1:ty, array_of($p2:ty)): $member:ident) => {
+        use std::slice;
+
+        #[no_mangle]
+        pub unsafe extern "C" fn $name(
+            tx: *mut hedera::transaction::Transaction<$constructor>,
+            _1: $p1,
+            _2: *const $p2,
+            _2_len: usize
+        ) {
+
+            let _2 = slice::from_raw_parts(_2, _2_len);
+
+            (&mut *tx).$member(_1.into(), _2.into());
         }
     };
 
@@ -149,7 +215,9 @@ macro_rules! def_tx_method {
             _1: $p1,
             _2: $p2,
         ) {
+
             (&mut *tx).$member(_1.into(), _2.into());
         }
     };
+
 }

@@ -8,6 +8,6 @@ def_tx_method!(TransactionContractCall: hedera_transaction__contract_call__set_g
 def_tx_method!(TransactionContractCall: hedera_transaction__contract_call__set_amount(i64): amount);
 
 def_tx_method!(
-    TransactionContractCall: hedera_transaction__contract_call__set_function_parameters(Vec<u8>):
+    TransactionContractCall: hedera_transaction__contract_call__set_function_parameters(array_of(u8)):
         function_parameters
 );

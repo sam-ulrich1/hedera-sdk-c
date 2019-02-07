@@ -40,8 +40,7 @@ def_tx_method!(
 
 def_tx_method!(
     TransactionContractCreate:
-        hedera_transaction__contract_create__set_constructor_parameters(Vec<u8>):
+        hedera_transaction__contract_create__set_constructor_parameters(array_of(u8)):
         constructor_parameters
 );
 
-// todo: to proto
