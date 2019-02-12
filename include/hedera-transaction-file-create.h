@@ -17,7 +17,7 @@ extern void hedera_transaction__file_create__set_contents(
     HederaTransaction*, const uint8_t* contents);
 
 extern void hedera_transaction__file_create__set_expires_at(
-    HederaClient*, HederaTimestamp expiration);
+    HederaTransaction*, HederaTimestamp expiration);
 
 #ifdef __cplusplus
 }
