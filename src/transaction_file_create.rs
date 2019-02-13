@@ -9,8 +9,4 @@ def_tx_method!(TransactionFileCreate: hedera_transaction__file_create__set_expir
 
 def_tx_method!(TransactionFileCreate: hedera_transaction__file_create__set_key(PublicKey): key);
 
-<<<<<<< HEAD
-def_tx_method!(TransactionFileCreate: hedera_transaction__file_create__set_contents(Vec<u8>): contents);
-=======
 def_tx_method!(TransactionFileCreate: hedera_transaction__file_create__set_contents(array_of(u8)): contents);
->>>>>>> corrects mappings of byte arrays
