@@ -46,7 +46,7 @@ extern void hedera_transaction__crypto_update__set_auto_renew_period(
     HederaDuration period
 );
 
-extern void hedera_transaction__crypto_update__set_expiration_time(
+extern void hedera_transaction__crypto_update__set_expires_at(
     HederaTransaction*, 
     HederaTimestamp expiration_time
 );
