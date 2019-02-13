@@ -25,5 +25,13 @@ def_tx_method!(
         receive_record_threshold
 );
 
-// todo: auto_renew_period
-// todo: expiration_time
+def_tx_method!(
+    TransactionCryptoUpdate: hedera_transaction__crypto_update__set_auto_renew_period(CDuration):
+        auto_renew_period
+);
+
+def_tx_method!(
+    TransactionCryptoUpdate: hedera_transaction__crypto_update__set_expiration_time(CTimestamp):
+        expiration_time
+);
+
