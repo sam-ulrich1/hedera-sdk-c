@@ -4,8 +4,6 @@ use hedera::transaction::Transaction;
 use hedera::{AccountId, SecretKey};
 use libc::c_char;
 use std::ffi::CStr;
-use libc::c_uchar;
-// use std::ffi::bool;
 
 #[no_mangle]
 pub unsafe extern "C" fn hedera_transaction_set_operator(
@@ -26,19 +24,6 @@ pub unsafe extern "C" fn hedera_transaction_set_memo(
     memo: *const c_char,
 ) {
     (&mut *tx).memo(CStr::from_ptr(memo).to_string_lossy());
-}
-
-#[no_mangle]
-pub unsafe extern "C" fn hedera_transaction_set_generate_record(
-    tx: *mut Transaction<()>,
-    record: c_uchar,
-) {
-    if record == 0 {
-        (&mut *tx).generate_record(false);
-    } else {
-        (&mut *tx).generate_record(true);
-    }
-
 }
 
 #[no_mangle]
