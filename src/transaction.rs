@@ -19,6 +19,11 @@ pub unsafe extern "C" fn hedera_transaction_set_node(tx: *mut Transaction<()>, n
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn hedera_transaction_set_feew(tx: *mut Transaction<()>, fee: u64) {
+    (&mut *tx).fee(fee);
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn hedera_transaction_set_memo(
     tx: *mut Transaction<()>,
     memo: *const c_char,
