@@ -41,11 +41,9 @@ mod query_transaction_get_record;
 
 mod transaction;
 
-mod transaction_admin_delete;
-mod transaction_admin_recover;
-
 mod transaction_contract_call;
 mod transaction_contract_create;
+mod transaction_contract_delete;
 mod transaction_contract_update;
 
 mod transaction_crypto_add_claim;
