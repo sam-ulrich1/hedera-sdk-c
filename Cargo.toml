@@ -9,7 +9,8 @@ crate-type = ["staticlib","cdylib"]
 
 [dependencies]
 # hedera = "0.4.1"
-hedera = { git = "https://github.com/launchbadge/hedera-sdk-rust" }
+# hedera = { git = "https://github.com/sam-ulrich1/hedera-sdk-rust" }
+hedera = { path = "/home/user/Development/Dependencies/hedera-sdk-rust" }
 libc = { version = "0.2.44" }
 slotmap = { version = "0.3.0", features = [ "unstable" ] }
 once_cell = "0.1.6"

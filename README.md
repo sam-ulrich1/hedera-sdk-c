@@ -23,6 +23,8 @@ In order to compile the following dependencies must be met:
         - cargo
         - nightly-toolchain
         - target x86_64-unknown-linux-musl
+        - target x86_64-apple-darwin
+        - target x86_64-pc-windows-gnu
     Protobuf:
         - protoc
 
@@ -36,6 +38,14 @@ If the above dependencies are met ignore the instructions below.
         - `rustup update`
         - `rustup toolchain install nightly`
         - `rustup target add x86_64-unknown-linux-musl --toolchain=nightly`
+            - NOTE: If other toolchains are installed you may need to repeat the above
+            step for each of the toolchains. List toolchains with this command:
+            `rustup toolchain list`
+        - `rustup target add x86_64-apple-darwin --toolchain=nightly`
+            - NOTE: If other toolchains are installed you may need to repeat the above
+            step for each of the toolchains. List toolchains with this command:
+            `rustup toolchain list`
+        - `rustup target add target x86_64-pc-windows-gnu --toolchain=nightly`
             - NOTE: If other toolchains are installed you may need to repeat the above
             step for each of the toolchains. List toolchains with this command:
             `rustup toolchain list`
