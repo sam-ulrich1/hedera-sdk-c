@@ -17,6 +17,7 @@ mod id;
 mod timestamp;
 mod transaction_id;
 mod transaction_record;
+mod function_result;
 
 mod account_info;
 mod contract_info;
@@ -25,6 +26,7 @@ mod file_info;
 mod query_contract_get_bytecode;
 mod query_contract_get_info;
 mod query_contract_get_records;
+mod query_contract_call;
 
 mod query_crypto_get_account_balance;
 mod query_crypto_get_account_records;
