@@ -9,14 +9,15 @@ edition = "2018"
 keywords = ["hedera", "sdk", "rust"]
 authors = [
     "LaunchBadge <contact@launchbadge.com> (PRIMARY)",
-    "Sam Ulrich <samson98ulrich@gmail.com>"
+    "Lonestar Data Technologies <sam@lonestardata.io>"
 ]
 
 [lib]
 crate-type = ["staticlib","cdylib"]
+rustflags = ["-C fpic"]
 
 [dependencies]
-hedera = { git = "https://github.com/launchbadge/hedera-sdk-rust" }
+hedera = { git = "https://github.com/sam-ulrich1/hedera-sdk-rust" }
 libc = { version = "0.2.44" }
 slotmap = { version = "0.3.0", features = [ "unstable" ] }
 once_cell = "0.1.6"

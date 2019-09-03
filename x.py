@@ -31,6 +31,7 @@ def get_default_target():
 
 
 def build(release=False):
+    additional_flags = ""
     default_target = get_default_target()
     targets = [
         "x86_64-apple-darwin",
@@ -55,6 +56,10 @@ def build(release=False):
         "x86_64-pc-windows-gnu": "hedera.dll",
         "x86_64-unknown-linux-musl": "n/a"
     }
+
+    flags = [
+        "--verbose"
+    ]
 
     if release:
         for target in targets:
@@ -107,7 +112,7 @@ def build(release=False):
 
         # For development; build only the _default_ target
         print(f" :: build hedera-sdk-c for {target}")
-        sh(f"cargo build --target {target}", cwd=".")
+        sh(f"cargo build {additional_flags} --target {target}", cwd=".")
 
         if not os.path.exists("libs/"):
             os.mkdir("libs/")
