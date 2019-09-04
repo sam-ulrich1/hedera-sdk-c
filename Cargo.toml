@@ -12,10 +12,6 @@ authors = [
     "Lonestar Data Technologies <sam@lonestardata.io>"
 ]
 
-[lib]
-crate-type = ["staticlib","cdylib"]
-rustflags = ["-C fpic"]
-
 [dependencies]
 hedera = { git = "https://github.com/sam-ulrich1/hedera-sdk-rust" }
 libc = { version = "0.2.44" }
